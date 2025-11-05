@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Category Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        textarea {
+            width: 100%;
+            padding: 1px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            resize: vertical;
+        }
+        input[type="submit"] {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #92a8d1;
+            color: White;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result h2 {
+            color: Black;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #92a8d1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background-color: #3a4353;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Arabic Text to Predict its Category</h1>
+        <h1>أدخل نصًا باللغة العربية لتصنيف فئته</h1>
+        <form action="/text_classification" method="POST">
+            <textarea name="input_text" rows="4" cols="50" style="text-align: right;">{{ input_text if input_text else '' }}</textarea><br><br>
+            <input type="submit" value="Predict (صنف)">
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            <h3>Predicted Category:
+                {% if prediction == "LABEL_1" %}
+                    Economy
+                {% elif prediction == "LABEL_5" %}
+                    Sports
+                {% elif prediction == "LABEL_2" %}
+                    International
+                {% elif prediction == "LABEL_3" %}
+                    Local
+                {% elif prediction == "LABEL_4" %}
+                    Religion
+                    {% elif prediction == "LABEL_0" %}
+                    Culture
+                {% else %}
+                    {{ prediction }}
+                {% endif %}
+            </h3>
+            <h2>
+                الفئة المصنفة: 
+                {% if prediction == "LABEL_1" %}
+                    اقتصادي
+                {% elif prediction == "LABEL_5" %}
+                    رياضي
+                {% elif prediction == "LABEL_2" %}
+                    عالمي
+                {% elif prediction == "LABEL_3" %}
+                    محلي
+                {% elif prediction == "LABEL_4" %}
+                    ديني
+                    {% elif prediction == "LABEL_0" %}
+                    ثقافي
+                {% else %}
+                    {{ prediction }}
+                {% endif %}
+            </h2>
+
+            <!-- Back to Main Page Button -->
+            <button class="back-button" onclick="window.location.href='/'">  ← Back to Main Page</button>
+        </div>
+
+{% endif %}
+
+    </div>
+</body>
+</html>
